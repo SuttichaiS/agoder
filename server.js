@@ -5,7 +5,8 @@ const connectDB = require('./config/db');
 
 // Route files
 const hotels = require('./routes/hotels.js');
-const auth = require('./routes/auth');
+const auth = require('./routes/auth.js');
+const bookings = require('./routes/bookings.js');
 
 //Load env vars
 dotenv.config({path:'./config/config.env'})
@@ -23,6 +24,7 @@ app.use(cookieParser());
 //Mount routers
 app.use('/api/v1/hotels', hotels)
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/bookings', bookings);
 
 
 const PORT = process.env.PORT || 5000;
