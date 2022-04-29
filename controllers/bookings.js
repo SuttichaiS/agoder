@@ -81,10 +81,15 @@ exports.getBooking = async (req, res, next) => {
 exports.addBooking = async(req, res, next) => {
     try{
         req.body.hotel = req.params.hotelId;
+        
+        req.body.bookingDate = new Date(req.body.bookingDate)
+
+        // console.log(req.body.bookingDate)
 
         const hotel = await Hotel.findById(req.params.hotelId);
-
+        const now = new Date()
         
+        // console.log(now)
 
         if(!hotel){
             return res.status(404).json({
@@ -93,8 +98,17 @@ exports.addBooking = async(req, res, next) => {
             })
         }
 
+        //Same day booking or past booking not allowed. Reference Agoda
+        if(req.body.bookingDate < now) {
+            return res.status(400).json({
+                success: false,
+                message: `Please book your room from tomorrow onward.`
+            })
+        }
+
         //add user Id to req.body
         req.body.user = req.user.id;
+
         //Check for existed booking
         const existedBookings = await Booking.find({user:req.user.id});
         
