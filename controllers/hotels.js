@@ -141,7 +141,7 @@ exports.deleteHotel = async (req, res, next) => {
     if (!hotel) {
       return res.status(404).json({
         success: false,
-        msg: 'Hospital Not Found!'
+        msg: 'Hotel Not Found!'
       });
     }
     hotel.remove();
